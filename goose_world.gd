@@ -1,13 +1,18 @@
 extends Node2D
 
 var speed = 300
-var direction = Vector2(1,0)
+var direction = Vector2.ZERO
 var screen_size = Vector2()
 var window_size = Vector2(200,200)
 var idle_timer = 0.0
 var is_idling = false
 var is_dragging = false
 var drag_offset = Vector2()
+var is_spinning = false
+var spin_time = 0.0
+var spin_duration = 0.7
+var spin_direction = 1
+
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var area = $Area2D
 
@@ -15,6 +20,13 @@ func _ready():
 	screen_size = Vector2(DisplayServer.screen_get_size())
 	animated_sprite.play("walk")
 	area.input_event.connect(_on_area_input)
+	
+	direction = Vector2.from_angle(randf_range(0, TAU))
+	
+func _start_to_spin():
+	is_spinning = true
+	spin_time = 0.0
+	speed = 0
 
 func _on_area_input(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -31,10 +43,22 @@ func maybe_idle():
 		idle_timer = randf_range(1.0,3.0)
 		var r = randi()%3
 		if r==0:
-			animated_sprite.play("defult")
+			animated_sprite.play("default")
 			speed = 0
 			
 func _physics_process(delta: float) -> void:
+	if is_spinning:
+		spin_time += delta
+		
+		# the spine_time / spin_duration thingy acts as a % of completion thingy so then the code knows when to stop the goose spinning
+		animated_sprite.rotation = (spin_time / spin_duration) * TAU * 3
+		
+		if spin_time >= spin_duration:
+			is_spinning = false
+			animated_sprite.rotation = 0
+			return
+	
+		
 	if is_dragging:
 		var mouse_pos = Vector2(DisplayServer.mouse_get_position())
 		var new_win_pos = mouse_pos - drag_offset
@@ -55,10 +79,15 @@ func _physics_process(delta: float) -> void:
 	DisplayServer.window_set_position(Vector2i(window_position))
 	
 	if window_position.x <= 0 or window_position.x >= screen_size.x - window_size.x:
+		$Honk.play()
 		direction.x *= -1
+		direction = Vector2.from_angle(randf_range(0, TAU))
+		_start_to_spin()
 		animated_sprite.flip_h = !animated_sprite.flip_h
 		maybe_idle()
 		
 	if window_position.y <= 0 or window_position.y >= screen_size.y - window_size.y:
+		$Honk.play()
 		direction.y *= -1
+		_start_to_spin()
 		maybe_idle()
