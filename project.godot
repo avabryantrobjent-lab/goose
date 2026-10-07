@@ -11,8 +11,18 @@ config_version=5
 [application]
 
 config/name="goose"
+run/main_scene="uid://cwb4oxwhoe7u3"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=200
+window/size/viewport_height=200
+window/size/borderless=true
+window/size/always_on_top=true
+window/size/transparent=true
+window/per_pixel_transparency/allowed=true
 
 [dotnet]
 
@@ -25,3 +35,4 @@ enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
 [rendering]
 
 renderer/rendering_method="mobile"
+viewport/transparent_background=true

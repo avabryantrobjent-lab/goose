@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://cwb4oxwhoe7u3"]
+
+[ext_resource type="Script" uid="uid://bb4p2nc4w8xkl" path="res://goose_world.gd" id="1_g5inv"]
+[ext_resource type="Texture2D" uid="uid://cebowmwllrc4c" path="res://normal.png" id="2_nulmj"]
+[ext_resource type="Texture2D" uid="uid://b485it2pitlle" path="res://walk 1.png" id="3_52us8"]
+[ext_resource type="Texture2D" uid="uid://s7qno4lrch4m" path="res://walk 2.png" id="4_gfyde"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ke7t8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_nulmj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_52us8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gfyde")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jjmqp"]
+size = Vector2(125.5, 195.5)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_g5inv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(94.50001, 110.50001)
+scale = Vector2(0.45432693, 0.41500005)
+sprite_frames = SubResource("SpriteFrames_ke7t8")
+animation = &"walk"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(104.25, 99.25)
+shape = SubResource("RectangleShape2D_jjmqp")
