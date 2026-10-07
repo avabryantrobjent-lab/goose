@@ -1,3 +1,21 @@
+
+Hey! I made an annoying goose desktop pet that honks whenever it hits the edge of your laptop screen :heart:
+
+Features~~~
+
+Spins and honks and has a chance to wait every time it hits the edge of the desktop screen
+Moves in random directions
+Draggable
+
+
+Itch.io link: https://avabr.itch.io/goose-desktop-buddy-3
+Github link: https://github.com/avabryantrobjent-lab/goose (edited)
+
+
+Download it on itch.io and it should run when you open the application!
+
+
+
 <a id="readme-top"></a>
 
 <!-- SHIELDS -->
